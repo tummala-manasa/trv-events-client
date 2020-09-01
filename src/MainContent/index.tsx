@@ -12,6 +12,7 @@ type Events = {
 };
 type HeaderProps = {
     events: Array<Events>;
+    currentEvents: Array<Events>;
 };
 
 class MainContent extends Component<HeaderProps, {}> {
@@ -20,7 +21,7 @@ class MainContent extends Component<HeaderProps, {}> {
     // }
 
     render() {
-        const events = this.props.events;
+        const events = this.props.currentEvents;
         let hash: { [k: string]: Array<Events> } = {};
 
         events.forEach((event) => {

@@ -49,9 +49,13 @@ class App extends Component<{}, AppState> {
                         endDate: new Date(event.endDate),
                     });
                 });
-                this.setState({ events });
+                this.setState({ events, currentEvents: events });
             });
     }
+
+    setCurrentEvents = (events: Array<Events>) => {
+        this.setState({ currentEvents: events });
+    };
 
     render() {
         const events: Array<Events> = this.state.events;
@@ -59,8 +63,8 @@ class App extends Component<{}, AppState> {
             <>
                 <Header events={events} />
                 {/* aside */}
-                <Filters events={events} />
-                <MainContent events={events} />
+                <Filters events={events} setCurrentEvents={this.setCurrentEvents} />
+                <MainContent events={events} currentEvents={this.state.currentEvents} />
             </>
         );
     }
