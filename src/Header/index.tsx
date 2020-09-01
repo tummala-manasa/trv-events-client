@@ -4,7 +4,7 @@ import './index.css';
 // todo: try to add this in common place
 type Events = {
     id: number;
-    isFree: Boolean;
+    isFree: boolean;
     name: string;
     city: number | string;
     startDate: Date;

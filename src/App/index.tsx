@@ -6,7 +6,7 @@ import Filters from '../Filters';
 
 type Events = {
     id: number;
-    isFree: Boolean;
+    isFree: boolean;
     name: string;
     city: number | string;
     startDate: Date;
