@@ -6,12 +6,25 @@ import './index.css';
 type HeaderProps = {
     events: Array<Events>;
     currentEvents: Array<Events>;
+    updateAnEvent: (event: Events) => void;
 };
 
 class MainContent extends Component<HeaderProps, {}> {
-    // constructor(props: HeaderProps) {
-    //     super(props);
-    // }
+    handleOnClick = (event: Events) => {
+        if (window.confirm(`Confirm sign up for the event "${event.name}"`)) {
+            fetch(`http://localhost:3001/events/${event.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ isSignedUp: true }),
+            })
+                .then((response) => response.json())
+                .then((response) => {
+                    this.props.updateAnEvent(response);
+                });
+        }
+    };
 
     render() {
         const events = this.props.currentEvents;
@@ -38,7 +51,11 @@ class MainContent extends Component<HeaderProps, {}> {
                         <div className="block1">
                             {event.isFree && <span className="free">FREE</span>}
                             <h2 className="head">{event.name}</h2>
-                            <button className="button">Sign up</button>
+                            {!event.isSignedUp && (
+                                <button className="button" onClick={(e) => this.handleOnClick(event)}>
+                                    Sign up
+                                </button>
+                            )}
                         </div>
                         <div className="block2">
                             <p className="para">{event.city}</p>

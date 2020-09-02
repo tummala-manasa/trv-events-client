@@ -48,6 +48,28 @@ class App extends Component<{}, AppState> {
         this.setState({ currentEvents: events });
     };
 
+    updateAnEvent = (event: Events) => {
+        this.setState((prevState) => {
+            let newEvents = [...prevState.events];
+            let tempEventInAll = newEvents.find((evt) => evt.id === event.id);
+            if (tempEventInAll) {
+                tempEventInAll.isSignedUp = true;
+            }
+
+            let newCurrentEvents = [...prevState.currentEvents];
+            let tempEventInCur = newCurrentEvents.find((evt) => evt.id === event.id);
+            if (tempEventInCur) {
+                tempEventInCur.isSignedUp = true;
+            }
+
+            return {
+                ...prevState,
+                events: [...newEvents],
+                currentEvents: [...newCurrentEvents],
+            };
+        });
+    };
+
     render() {
         const events: Array<Events> = this.state.events;
         return (
@@ -55,7 +77,11 @@ class App extends Component<{}, AppState> {
                 <Header events={events} />
                 {/* aside */}
                 <Filters events={events} setCurrentEvents={this.setCurrentEvents} />
-                <MainContent events={events} currentEvents={this.state.currentEvents} />
+                <MainContent
+                    events={events}
+                    currentEvents={this.state.currentEvents}
+                    updateAnEvent={this.updateAnEvent}
+                />
             </>
         );
     }

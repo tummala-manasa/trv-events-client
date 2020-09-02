@@ -5,6 +5,7 @@ export type Events = {
     city: number | string;
     startDate: Date;
     endDate: Date;
+    isSignedUp: boolean;
 };
 
 export type City = {
