@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
+import { Events } from '../Utils/types';
+
 import './index.css';
 
-// todo: try to add this in common place
-type Events = {
-    id: number;
-    isFree: boolean;
-    name: string;
-    city: number | string;
-    startDate: Date;
-    endDate: Date;
-};
 type HeaderProps = {
     events: Array<Events>;
 };
@@ -34,7 +27,7 @@ class Header extends Component<HeaderProps, HeaderState> {
                 <span className="place">
                     <button className={`${currentView === 'all' ? 'active' : ''}`}>All events</button>
                     <button className={`${currentView === 'my' ? 'active' : ''}`}>My events</button>
-                    <a>About</a>
+                    <a href="/">About</a>
                 </span>
             </header>
         );

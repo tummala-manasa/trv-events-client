@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
+import { Events } from '../Utils/types';
 // import './index.css';
 
-// todo: try to add this in common place
-type Events = {
-    id: number;
-    isFree: boolean;
-    name: string;
-    city: number | string;
-    startDate: Date;
-    endDate: Date;
-};
 type FiltersProps = {
     events: Array<Events>;
     setCurrentEvents: (events: Events[]) => void;
@@ -84,7 +76,7 @@ class Filters extends Component<FiltersProps, FiltersState> {
                 cityName,
             } = this.state;
 
-            const staringHours = event.startDate.getHours();
+            const staringHours = event.startDate.getHours(); //todo: use miutes as well
             if (isMorningChecked || isAfternoonChecked || isEveningChecked || isNightChecked) {
                 if (isMorningChecked) {
                     slot = staringHours >= 6 && staringHours <= 12;

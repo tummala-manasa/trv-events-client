@@ -3,15 +3,8 @@ import './index.css';
 import Header from '../Header';
 import MainContent from '../MainContent';
 import Filters from '../Filters';
+import { Events } from '../Utils/types';
 
-type Events = {
-    id: number;
-    isFree: boolean;
-    name: string;
-    city: number | string;
-    startDate: Date;
-    endDate: Date;
-};
 type City = {
     id: Number;
     name: string;
