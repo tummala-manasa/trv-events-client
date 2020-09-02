@@ -10,6 +10,7 @@ import './index.css';
 type AppState = {
     events: Array<Events>;
     currentEvents: Array<Events>;
+    currentView: string;
 };
 
 class App extends Component<{}, AppState> {
@@ -18,6 +19,7 @@ class App extends Component<{}, AppState> {
         this.state = {
             events: [],
             currentEvents: [],
+            currentView: 'all',
         };
     }
 
@@ -48,6 +50,10 @@ class App extends Component<{}, AppState> {
         this.setState({ currentEvents: events });
     };
 
+    setCurrentView = (view: string) => {
+        this.setState({ currentView: view });
+    };
+
     updateAnEvent = (event: Events) => {
         this.setState((prevState) => {
             let newEvents = [...prevState.events];
@@ -74,13 +80,13 @@ class App extends Component<{}, AppState> {
         const events: Array<Events> = this.state.events;
         return (
             <>
-                <Header events={events} />
-                {/* aside */}
+                <Header events={events} setCurrentView={this.setCurrentView} currentView={this.state.currentView} />
                 <Filters events={events} setCurrentEvents={this.setCurrentEvents} />
                 <MainContent
                     events={events}
                     currentEvents={this.state.currentEvents}
                     updateAnEvent={this.updateAnEvent}
+                    currentView={this.state.currentView}
                 />
             </>
         );

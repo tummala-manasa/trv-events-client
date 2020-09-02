@@ -6,6 +6,7 @@ import './index.css';
 type HeaderProps = {
     events: Array<Events>;
     currentEvents: Array<Events>;
+    currentView: string;
     updateAnEvent: (event: Events) => void;
 };
 
@@ -41,10 +42,12 @@ class MainContent extends Component<HeaderProps, {}> {
         });
 
         const eventList = Object.entries(hash).map((arr) => {
-            const block = arr[1].map((event) => {
+            let block = arr[1].map((event) => {
                 const startDate = event.startDate;
                 const endDate = event.endDate;
                 const duration = (endDate.getTime() - startDate.getTime()) / 60000;
+                const show = this.props.currentView === 'all' || (this.props.currentView === 'my' && event.isSignedUp);
+                if (!show) return null;
 
                 return (
                     <div className="block" key={event.id}>
@@ -69,6 +72,9 @@ class MainContent extends Component<HeaderProps, {}> {
                     </div>
                 );
             });
+            block = block.filter((block) => block);
+            if (!block.length) return null;
+
             return (
                 <li key={arr[0]}>
                     <p className="para">{arr[0]}</p>
