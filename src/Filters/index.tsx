@@ -20,6 +20,8 @@ type FiltersState = {
     isAfternoonChecked: boolean;
     isEveningChecked: boolean;
     isNightChecked: boolean;
+    eventName: string;
+    cityName: string;
 };
 
 class Filters extends Component<FiltersProps, FiltersState> {
@@ -31,11 +33,13 @@ class Filters extends Component<FiltersProps, FiltersState> {
             isAfternoonChecked: false,
             isEveningChecked: false,
             isNightChecked: false,
+            eventName: '',
+            cityName: '',
         };
     }
 
     handleCheckbox: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        let name = e.target.name;
+        const name = e.target.name;
         const checked = e.target.checked;
         if (name === 'free') {
             this.setState({ isFreeChecked: checked }, this.showCurrentEvents);
@@ -49,13 +53,37 @@ class Filters extends Component<FiltersProps, FiltersState> {
             this.setState({ isNightChecked: checked }, this.showCurrentEvents);
         }
     };
+
+    debounce = (fn: () => void, delay = 300) => {
+        let timer: number;
+        return () => {
+            clearTimeout(timer);
+            timer = window.setTimeout(() => {
+                fn();
+            }, delay);
+        };
+    };
+
+    handleText = this.debounce(() => {
+        this.showCurrentEvents();
+    });
+
     showCurrentEvents = () => {
         let events = this.props.events;
         events = events.filter((event) => {
-            let condition = true;
+            let condition = true,
+                slot = false,
+                name = false,
+                city = false;
+            const {
+                isMorningChecked,
+                isAfternoonChecked,
+                isEveningChecked,
+                isNightChecked,
+                eventName,
+                cityName,
+            } = this.state;
 
-            let { isMorningChecked, isAfternoonChecked, isEveningChecked, isNightChecked } = this.state;
-            let slot = false;
             const staringHours = event.startDate.getHours();
             if (isMorningChecked || isAfternoonChecked || isEveningChecked || isNightChecked) {
                 if (isMorningChecked) {
@@ -74,7 +102,19 @@ class Filters extends Component<FiltersProps, FiltersState> {
                 slot = true;
             }
 
-            condition = slot && (this.state.isFreeChecked ? event.isFree : true);
+            if (eventName) {
+                name = event.name.toLowerCase().includes(eventName.toLowerCase());
+            } else {
+                name = true;
+            }
+
+            if (cityName) {
+                city = event.city.toString().toLowerCase().includes(cityName.toLowerCase());
+            } else {
+                city = true;
+            }
+
+            condition = slot && name && city && (this.state.isFreeChecked ? event.isFree : true);
 
             return condition;
         });
@@ -86,8 +126,24 @@ class Filters extends Component<FiltersProps, FiltersState> {
         // todo: change styles to classes
         return (
             <aside>
-                <input placeholder="Name" className="text" />
-                <input placeholder="City" className="text" />
+                <input
+                    placeholder="Name"
+                    className="text"
+                    onChange={(e) => {
+                        this.setState({ eventName: e.target.value });
+                        this.handleText();
+                    }}
+                    value={this.state.eventName}
+                />
+                <input
+                    placeholder="City"
+                    className="text"
+                    onChange={(e) => {
+                        this.setState({ cityName: e.target.value });
+                        this.handleText();
+                    }}
+                    value={this.state.cityName}
+                />
                 <label>
                     <input
                         type="checkbox"
