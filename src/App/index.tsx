@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import './index.css';
+import { Events, City } from '../Utils/types';
+
 import Header from '../Header';
 import MainContent from '../MainContent';
 import Filters from '../Filters';
-import { Events } from '../Utils/types';
 
-type City = {
-    id: Number;
-    name: string;
-};
+import './index.css';
+
 type AppState = {
     events: Array<Events>;
     currentEvents: Array<Events>;

@@ -6,3 +6,8 @@ export type Events = {
     startDate: Date;
     endDate: Date;
 };
+
+export type City = {
+    id: Number;
+    name: string;
+};
