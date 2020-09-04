@@ -12,24 +12,25 @@ type HeaderProps = {
 class Header extends Component<HeaderProps, {}> {
     render() {
         const currentView: string = this.props.currentView;
-        // todo: change styles to classes
         return (
-            <header>
+            <header className="header">
                 TRIVAGO
                 <span className="place">
                     <button
-                        className={`${currentView === 'all' ? 'active' : ''}`}
+                        className={`button anchor-button ${currentView === 'all' ? 'active' : ''}`}
                         onClick={(e) => this.props.setCurrentView('all')}
                     >
                         All events
                     </button>
                     <button
-                        className={`${currentView === 'my' ? 'active' : ''}`}
+                        className={`button anchor-button ${currentView === 'my' ? 'active' : ''}`}
                         onClick={(e) => this.props.setCurrentView('my')}
                     >
                         My events
                     </button>
-                    <a href="/">About</a>
+                    <a href="/" className="link">
+                        About
+                    </a>
                 </span>
             </header>
         );

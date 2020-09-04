@@ -1,0 +1,50 @@
+#filters {
+    width: 20%;
+    height: 100%;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    box-sizing: border-box;
+}
+
+.text {
+    margin-bottom: 25px;
+    padding: 10px;
+    border: none;
+    width: 90%;
+    background-color: white;
+}
+
+.text::placeholder {
+    color: #dbe0e6;
+}
+
+.checkbox {
+    margin-right: 15px;
+}
+
+.slots {
+    border: none;
+    display: flex;
+    margin: 0px;
+    margin: 25px 0;
+    padding: 0;
+}
+
+@media (max-width: 900px) {
+    #filters {
+        width: 25%;
+    }
+}
+
+@media (max-width: 700px) {
+    #filters {
+        display: none;
+        width: 100%;
+    }
+
+    #filters.show {
+        display: flex;
+    }
+}

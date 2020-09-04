@@ -52,10 +52,10 @@ class MainContent extends Component<HeaderProps, {}> {
                 if (!show) return null;
 
                 return (
-                    <div className="block" key={event.id}>
-                        <div className="block1">
+                    <div className="container" key={event.id}>
+                        <div className="primary">
                             {event.isFree && <span className="free">FREE</span>}
-                            <h2 className="head">{event.name}</h2>
+                            <h2 className="title">{event.name}</h2>
                             {event.isSignedUp && this.props.currentView === 'my' && (
                                 <button className="button" onClick={(e) => this.handleOnClick(event, false)}>
                                     Cancel
@@ -67,7 +67,7 @@ class MainContent extends Component<HeaderProps, {}> {
                                 </button>
                             )}
                         </div>
-                        <div className="block2">
+                        <div className="secondary">
                             <p className="para">{event.city}</p>
                             <p className="para">{duration}'</p>
                             {/* todo: make 0:0 as 00:00 */}
@@ -91,10 +91,9 @@ class MainContent extends Component<HeaderProps, {}> {
         });
         eventList = eventList.filter((event) => event);
 
-        // todo: change styles to classes
         return (
-            <section className={`${this.props.showFilters ? 'hide' : ''}`}>
-                <button className="button filters" onClick={(e) => this.props.setFilterVisibility(true)}>
+            <section className={`${this.props.showFilters ? 'hide' : ''}`} id="main-content">
+                <button className="button hidden-mobile-button" onClick={(e) => this.props.setFilterVisibility(true)}>
                     Filters
                 </button>
                 {eventList.length ? eventList : <div>This view has no events</div>}

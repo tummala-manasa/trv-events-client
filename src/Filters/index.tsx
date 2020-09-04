@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Events } from '../Utils/types';
-// import './index.css';
+import './index.css';
 
 type FiltersProps = {
     events: Array<Events>;
@@ -117,9 +117,8 @@ class Filters extends Component<FiltersProps, FiltersState> {
     };
 
     render() {
-        // todo: change styles to classes
         return (
-            <aside className={`${this.props.showFilters ? 'show' : ''}`}>
+            <aside className={`${this.props.showFilters ? 'show' : ''}`} id="filters">
                 <input
                     placeholder="Name"
                     className="text"
@@ -141,16 +140,18 @@ class Filters extends Component<FiltersProps, FiltersState> {
                 <label>
                     <input
                         type="checkbox"
+                        className="checkbox"
                         checked={this.state.isFreeChecked}
                         name="free"
                         onChange={this.handleCheckbox}
                     />
                     Only <span className="free">FREE</span>
                 </label>
-                <fieldset>
+                <fieldset className="slots">
                     <label>
                         <input
                             type="checkbox"
+                            className="checkbox"
                             checked={this.state.isMorningChecked}
                             name="morning"
                             onChange={this.handleCheckbox}
@@ -160,6 +161,7 @@ class Filters extends Component<FiltersProps, FiltersState> {
                     <label>
                         <input
                             type="checkbox"
+                            className="checkbox"
                             checked={this.state.isAfternoonChecked}
                             name="afternoon"
                             onChange={this.handleCheckbox}
@@ -169,6 +171,7 @@ class Filters extends Component<FiltersProps, FiltersState> {
                     <label>
                         <input
                             type="checkbox"
+                            className="checkbox"
                             checked={this.state.isEveningChecked}
                             name="evening"
                             onChange={this.handleCheckbox}
@@ -178,6 +181,7 @@ class Filters extends Component<FiltersProps, FiltersState> {
                     <label>
                         <input
                             type="checkbox"
+                            className="checkbox"
                             checked={this.state.isNightChecked}
                             name="night"
                             onChange={this.handleCheckbox}
@@ -185,7 +189,7 @@ class Filters extends Component<FiltersProps, FiltersState> {
                         Night
                     </label>
                 </fieldset>
-                <button className="button filters" onClick={(e) => this.props.setFilterVisibility(false)}>
+                <button className="button hidden-mobile-button" onClick={(e) => this.props.setFilterVisibility(false)}>
                     Done
                 </button>
             </aside>
