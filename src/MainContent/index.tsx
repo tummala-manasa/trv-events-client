@@ -43,7 +43,7 @@ class MainContent extends Component<HeaderProps, {}> {
             }
         });
 
-        const eventList = Object.entries(hash).map((arr) => {
+        let eventList = Object.entries(hash).map((arr) => {
             let block = arr[1].map((event) => {
                 const startDate = event.startDate;
                 const endDate = event.endDate;
@@ -89,13 +89,15 @@ class MainContent extends Component<HeaderProps, {}> {
                 </li>
             );
         });
+        eventList = eventList.filter((event) => event);
+
         // todo: change styles to classes
         return (
             <section className={`${this.props.showFilters ? 'hide' : ''}`}>
                 <button className="button filters" onClick={(e) => this.props.setFilterVisibility(true)}>
                     Filters
                 </button>
-                {eventList}
+                {eventList.length ? eventList : <div>This view has no events</div>}
             </section>
         );
     }

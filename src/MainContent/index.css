@@ -18,6 +18,9 @@ section {
     align-items: center;
 }
 
+.block1 .free {
+    margin-right: 20px;
+}
 .block2 {
     display: flex;
     justify-content: space-between;
@@ -36,7 +39,6 @@ li {
     display: inline-block;
     margin: 0;
     font-size: 18px;
-    margin-left: 20px;
     flex-grow: 2;
 }
 
