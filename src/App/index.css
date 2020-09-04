@@ -3,7 +3,6 @@ aside {
     width: 20%;
     height: 100%;
     position: fixed;
-    border-right: 1px solid;
     display: flex;
     flex-direction: column;
     padding: 25px;

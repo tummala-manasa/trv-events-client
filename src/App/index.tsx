@@ -65,13 +65,13 @@ class App extends Component<{}, AppState> {
             let newEvents = [...prevState.events];
             let tempEventInAll = newEvents.find((evt) => evt.id === event.id);
             if (tempEventInAll) {
-                tempEventInAll.isSignedUp = true;
+                tempEventInAll.isSignedUp = event.isSignedUp;
             }
 
             let newCurrentEvents = [...prevState.currentEvents];
             let tempEventInCur = newCurrentEvents.find((evt) => evt.id === event.id);
             if (tempEventInCur) {
-                tempEventInCur.isSignedUp = true;
+                tempEventInCur.isSignedUp = event.isSignedUp;
             }
 
             return {

@@ -13,14 +13,14 @@ type HeaderProps = {
 };
 
 class MainContent extends Component<HeaderProps, {}> {
-    handleOnClick = (event: Events) => {
-        if (window.confirm(`Confirm sign up for the event "${event.name}"`)) {
+    handleOnClick = (event: Events, state: boolean) => {
+        if (!state || window.confirm(`Confirm sign up for the event "${event.name}"`)) {
             fetch(`http://localhost:3001/events/${event.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ isSignedUp: true }),
+                body: JSON.stringify({ isSignedUp: state }),
             })
                 .then((response) => response.json())
                 .then((response) => {
@@ -56,8 +56,13 @@ class MainContent extends Component<HeaderProps, {}> {
                         <div className="block1">
                             {event.isFree && <span className="free">FREE</span>}
                             <h2 className="head">{event.name}</h2>
+                            {event.isSignedUp && this.props.currentView === 'my' && (
+                                <button className="button" onClick={(e) => this.handleOnClick(event, false)}>
+                                    Cancel
+                                </button>
+                            )}
                             {!event.isSignedUp && (
-                                <button className="button" onClick={(e) => this.handleOnClick(event)}>
+                                <button className="button" onClick={(e) => this.handleOnClick(event, true)}>
                                     Sign up
                                 </button>
                             )}
