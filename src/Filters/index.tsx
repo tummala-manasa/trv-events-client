@@ -5,6 +5,8 @@ import { Events } from '../Utils/types';
 type FiltersProps = {
     events: Array<Events>;
     setCurrentEvents: (events: Events[]) => void;
+    setFilterVisibility: (state: boolean) => void;
+    showFilters: boolean;
 };
 type FiltersState = {
     isFreeChecked: boolean;
@@ -117,7 +119,7 @@ class Filters extends Component<FiltersProps, FiltersState> {
     render() {
         // todo: change styles to classes
         return (
-            <aside>
+            <aside className={`${this.props.showFilters ? 'show' : ''}`}>
                 <input
                     placeholder="Name"
                     className="text"
@@ -183,6 +185,9 @@ class Filters extends Component<FiltersProps, FiltersState> {
                         Night
                     </label>
                 </fieldset>
+                <button className="button filters" onClick={(e) => this.props.setFilterVisibility(false)}>
+                    Done
+                </button>
             </aside>
         );
     }

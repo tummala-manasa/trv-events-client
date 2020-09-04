@@ -2,7 +2,7 @@
 aside {
     width: 20%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     border-right: 1px solid;
     display: flex;
     flex-direction: column;
@@ -27,7 +27,7 @@ fieldset {
     border: none;
     display: flex;
     margin: 0px;
-    margin-top: 25px;
+    margin: 25px 0;
     padding: 0;
 }
 .free {
@@ -37,6 +37,21 @@ fieldset {
     font-size: 14px;
     background-color: #47bb78;
     height: 100%;
+}
+@media (max-width: 900px) {
+    aside {
+        width: 25%;
+    }
+}
+
+@media (max-width: 700px) {
+    aside {
+        display: none;
+        width: 100%;
+    }
+    aside.show {
+        display: flex;
+    }
 }
 
 /* section */

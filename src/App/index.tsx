@@ -11,6 +11,7 @@ type AppState = {
     events: Array<Events>;
     currentEvents: Array<Events>;
     currentView: string;
+    showFilters: boolean;
 };
 
 class App extends Component<{}, AppState> {
@@ -20,6 +21,7 @@ class App extends Component<{}, AppState> {
             events: [],
             currentEvents: [],
             currentView: 'all',
+            showFilters: false,
         };
     }
 
@@ -54,6 +56,10 @@ class App extends Component<{}, AppState> {
         this.setState({ currentView: view });
     };
 
+    setFilterVisibility = (state: boolean) => {
+        this.setState({ showFilters: state });
+    };
+
     updateAnEvent = (event: Events) => {
         this.setState((prevState) => {
             let newEvents = [...prevState.events];
@@ -81,12 +87,19 @@ class App extends Component<{}, AppState> {
         return (
             <>
                 <Header events={events} setCurrentView={this.setCurrentView} currentView={this.state.currentView} />
-                <Filters events={events} setCurrentEvents={this.setCurrentEvents} />
+                <Filters
+                    events={events}
+                    setCurrentEvents={this.setCurrentEvents}
+                    setFilterVisibility={this.setFilterVisibility}
+                    showFilters={this.state.showFilters}
+                />
                 <MainContent
                     events={events}
                     currentEvents={this.state.currentEvents}
                     updateAnEvent={this.updateAnEvent}
                     currentView={this.state.currentView}
+                    setFilterVisibility={this.setFilterVisibility}
+                    showFilters={this.state.showFilters}
                 />
             </>
         );

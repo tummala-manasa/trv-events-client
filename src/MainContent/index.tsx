@@ -8,6 +8,8 @@ type HeaderProps = {
     currentEvents: Array<Events>;
     currentView: string;
     updateAnEvent: (event: Events) => void;
+    setFilterVisibility: (state: boolean) => void;
+    showFilters: boolean;
 };
 
 class MainContent extends Component<HeaderProps, {}> {
@@ -83,7 +85,14 @@ class MainContent extends Component<HeaderProps, {}> {
             );
         });
         // todo: change styles to classes
-        return <section>{eventList}</section>;
+        return (
+            <section className={`${this.props.showFilters ? 'hide' : ''}`}>
+                <button className="button filters" onClick={(e) => this.props.setFilterVisibility(true)}>
+                    Filters
+                </button>
+                {eventList}
+            </section>
+        );
     }
 }
 

@@ -45,4 +45,33 @@ li {
     padding: 10px;
     color: #1d7fa9;
     position: relative;
+    white-space: nowrap;
+    width: max-content;
+}
+
+.filters {
+    background-color: #1d7fa9;
+    color: #fff;
+    padding: 5px;
+    display: none;
+}
+
+@media (max-width: 900px) {
+    section {
+        width: 70%;
+        left: 25%;
+    }
+}
+
+@media (max-width: 700px) {
+    section {
+        width: 95%;
+        left: 0;
+    }
+    section.hide {
+        display: none;
+    }
+    .filters {
+        display: block;
+    }
 }
