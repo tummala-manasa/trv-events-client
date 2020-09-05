@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Events } from '../Utils/types';
 
+import FilterContext from '../Context/filter';
+
 import './index.css';
 
 type HeaderProps = {
@@ -8,10 +10,11 @@ type HeaderProps = {
     currentView: string;
     updateAnEvent: (event: Events) => void;
     setFilterVisibility: (state: boolean) => void;
-    showFilters: boolean;
 };
 
 class MainContent extends Component<HeaderProps, {}> {
+    static contextType = FilterContext;
+
     handleOnClick = (event: Events, state: boolean) => {
         if (!state || window.confirm(`Confirm sign up for the event "${event.name}"`)) {
             fetch(`http://localhost:3001/events/${event.id}`, {
@@ -91,7 +94,7 @@ class MainContent extends Component<HeaderProps, {}> {
         eventList = eventList.filter((event) => event);
 
         return (
-            <section className={`${this.props.showFilters ? 'hide' : ''}`} id="main-content">
+            <section className={`${this.context ? 'hide' : ''}`} id="main-content">
                 <button className="button hidden-mobile-button" onClick={(e) => this.props.setFilterVisibility(true)}>
                     Filters
                 </button>

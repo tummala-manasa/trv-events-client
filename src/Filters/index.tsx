@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Events } from '../Utils/types';
+
+import FilterContext from '../Context/filter';
+
 import './index.css';
 
 type FiltersProps = {
     events: Array<Events>;
     setCurrentEvents: (events: Events[]) => void;
     setFilterVisibility: (state: boolean) => void;
-    showFilters: boolean;
 };
 type FiltersState = {
     isFreeChecked: boolean;
@@ -31,6 +33,7 @@ class Filters extends Component<FiltersProps, FiltersState> {
             cityName: '',
         };
     }
+    static contextType = FilterContext;
 
     handleCheckbox: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         const name = e.target.name;
@@ -118,7 +121,7 @@ class Filters extends Component<FiltersProps, FiltersState> {
 
     render() {
         return (
-            <aside className={`${this.props.showFilters ? 'show' : ''}`} id="filters">
+            <aside className={`${this.context ? 'show' : ''}`} id="filters">
                 <input
                     placeholder="Name"
                     className="text"

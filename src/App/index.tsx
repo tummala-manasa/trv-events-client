@@ -4,6 +4,7 @@ import { Events, City } from '../Utils/types';
 import Header from '../Header';
 import MainContent from '../MainContent';
 import Filters from '../Filters';
+import FilterContext from '../Context/filter';
 
 import './index.css';
 
@@ -90,21 +91,21 @@ class App extends Component<{}, AppState> {
         return (
             <>
                 <Header setCurrentView={this.setCurrentView} currentView={this.state.currentView} />
-                <Filters
-                    events={events}
-                    setCurrentEvents={this.setCurrentEvents}
-                    setFilterVisibility={this.setFilterVisibility}
-                    showFilters={this.state.showFilters}
-                />
-                {events.length > 0 && (
-                    <MainContent
-                        currentEvents={this.state.currentEvents}
-                        updateAnEvent={this.updateAnEvent}
-                        currentView={this.state.currentView}
+                <FilterContext.Provider value={this.state.showFilters}>
+                    <Filters
+                        events={events}
+                        setCurrentEvents={this.setCurrentEvents}
                         setFilterVisibility={this.setFilterVisibility}
-                        showFilters={this.state.showFilters}
                     />
-                )}
+                    {events.length > 0 && (
+                        <MainContent
+                            currentEvents={this.state.currentEvents}
+                            updateAnEvent={this.updateAnEvent}
+                            currentView={this.state.currentView}
+                            setFilterVisibility={this.setFilterVisibility}
+                        />
+                    )}
+                </FilterContext.Provider>
             </>
         );
     }
