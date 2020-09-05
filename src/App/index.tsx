@@ -98,7 +98,6 @@ class App extends Component<{}, AppState> {
                 />
                 {events.length > 0 && (
                     <MainContent
-                        events={events}
                         currentEvents={this.state.currentEvents}
                         updateAnEvent={this.updateAnEvent}
                         currentView={this.state.currentView}

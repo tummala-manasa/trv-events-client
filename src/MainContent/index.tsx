@@ -4,7 +4,6 @@ import { Events } from '../Utils/types';
 import './index.css';
 
 type HeaderProps = {
-    events: Array<Events>;
     currentEvents: Array<Events>;
     currentView: string;
     updateAnEvent: (event: Events) => void;
