@@ -12,3 +12,10 @@ export type City = {
     id: Number;
     name: string;
 };
+
+export type checkboxState = {
+    isMorningChecked: boolean;
+    isAfternoonChecked: boolean;
+    isEveningChecked: boolean;
+    isNightChecked: boolean;
+};

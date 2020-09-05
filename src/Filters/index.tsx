@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Events } from '../Utils/types';
 
 import FilterContext from '../Context/filter';
+import { checkSlot, textFilter } from '../Utils/helpers';
 
 import './index.css';
 
@@ -10,194 +11,110 @@ type FiltersProps = {
     setCurrentEvents: (events: Events[]) => void;
     setFilterVisibility: (state: boolean) => void;
 };
-type FiltersState = {
-    isFreeChecked: boolean;
-    isMorningChecked: boolean;
-    isAfternoonChecked: boolean;
-    isEveningChecked: boolean;
-    isNightChecked: boolean;
-    eventName: string;
-    cityName: string;
-};
 
-class Filters extends Component<FiltersProps, FiltersState> {
-    constructor(props: FiltersProps) {
-        super(props);
-        this.state = {
-            isFreeChecked: false,
-            isMorningChecked: false,
-            isAfternoonChecked: false,
-            isEveningChecked: false,
-            isNightChecked: false,
-            eventName: '',
-            cityName: '',
-        };
-    }
-    static contextType = FilterContext;
+const Filters: React.FC<FiltersProps> = ({ events, setCurrentEvents, setFilterVisibility }) => {
+    // state
+    const [isFreeChecked, setIsFreeChecked] = useState(false);
+    const [isMorningChecked, setIsMorningChecked] = useState(false);
+    const [isAfternoonChecked, setIsAfternoonChecked] = useState(false);
+    const [isEveningChecked, setIsEveningChecked] = useState(false);
+    const [isNightChecked, setIsNightChecked] = useState(false);
+    const [eventName, setEventName] = useState('');
+    const [cityName, setCityName] = useState('');
 
-    handleCheckbox: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        const name = e.target.name;
-        const checked = e.target.checked;
-        if (name === 'free') {
-            this.setState({ isFreeChecked: checked }, this.showCurrentEvents);
-        } else if (name === 'morning') {
-            this.setState({ isMorningChecked: checked }, this.showCurrentEvents);
-        } else if (name === 'afternoon') {
-            this.setState({ isAfternoonChecked: checked }, this.showCurrentEvents);
-        } else if (name === 'evening') {
-            this.setState({ isEveningChecked: checked }, this.showCurrentEvents);
-        } else if (name === 'night') {
-            this.setState({ isNightChecked: checked }, this.showCurrentEvents);
-        }
-    };
+    // context
+    const showFilter = useContext(FilterContext);
 
-    debounce = (fn: () => void, delay = 300) => {
-        let timer: number;
-        return () => {
-            clearTimeout(timer);
-            timer = window.setTimeout(() => {
-                fn();
-            }, delay);
-        };
-    };
-
-    handleText = this.debounce(() => {
-        this.showCurrentEvents();
-    });
-
-    showCurrentEvents = () => {
-        let events = this.props.events;
-        events = events.filter((event) => {
-            let condition = true,
-                slot = false,
-                name = false,
-                city = false;
-            const {
-                isMorningChecked,
-                isAfternoonChecked,
-                isEveningChecked,
-                isNightChecked,
-                eventName,
-                cityName,
-            } = this.state;
-
-            const staringHours = event.startDate.getHours(); //todo: use miutes as well
-            if (isMorningChecked || isAfternoonChecked || isEveningChecked || isNightChecked) {
-                if (isMorningChecked) {
-                    slot = staringHours >= 6 && staringHours <= 12;
-                }
-                if (isAfternoonChecked) {
-                    slot = slot || (staringHours > 12 && staringHours <= 17);
-                }
-                if (isEveningChecked) {
-                    slot = slot || (staringHours > 17 && staringHours <= 21);
-                }
-                if (isNightChecked) {
-                    slot = slot || staringHours > 21 || staringHours < 6;
-                }
-            } else {
-                slot = true;
-            }
-
-            if (eventName) {
-                name = event.name.toLowerCase().includes(eventName.toLowerCase());
-            } else {
-                name = true;
-            }
-
-            if (cityName) {
-                city = event.city.toString().toLowerCase().includes(cityName.toLowerCase());
-            } else {
-                city = true;
-            }
-
-            condition = slot && name && city && (this.state.isFreeChecked ? event.isFree : true);
-
-            return condition;
+    // Filter all parameters
+    const showCurrentEvents = () => {
+        const filteredEvents: Events[] = events.filter((event) => {
+            return (
+                // order according to complexity
+                (isFreeChecked ? event.isFree : true) &&
+                textFilter(event.name, eventName) &&
+                textFilter(event.city, cityName) &&
+                checkSlot({ isMorningChecked, isAfternoonChecked, isEveningChecked, isNightChecked }, event.startDate)
+            );
         });
-        this.props.setCurrentEvents(events);
-        console.log(events);
+        setCurrentEvents(filteredEvents);
+        console.log(filteredEvents);
     };
 
-    render() {
-        return (
-            <aside className={`${this.context ? 'show' : ''}`} id="filters">
+    // when check boxes change
+    useEffect(() => {
+        showCurrentEvents();
+    }, [isFreeChecked, isMorningChecked, isAfternoonChecked, isEveningChecked, isNightChecked]);
+
+    // when text boxes change, we debounce the handler
+    const intervalRef = useRef<number>();
+    useEffect(() => {
+        clearInterval(intervalRef.current);
+        intervalRef.current = window.setTimeout(() => {
+            showCurrentEvents();
+        }, 300);
+    }, [eventName, cityName, events]);
+
+    return (
+        <aside className={`${showFilter ? 'show' : ''}`} id="filters">
+            <input
+                placeholder="Name"
+                className="text"
+                onChange={(e) => setEventName(e.target.value)}
+                value={eventName}
+            />
+            <input placeholder="City" className="text" onChange={(e) => setCityName(e.target.value)} value={cityName} />
+            <label>
                 <input
-                    placeholder="Name"
-                    className="text"
-                    onChange={(e) => {
-                        this.setState({ eventName: e.target.value });
-                        this.handleText();
-                    }}
-                    value={this.state.eventName}
+                    type="checkbox"
+                    className="checkbox"
+                    checked={isFreeChecked}
+                    onChange={(e) => setIsFreeChecked(e.target.checked)}
                 />
-                <input
-                    placeholder="City"
-                    className="text"
-                    onChange={(e) => {
-                        this.setState({ cityName: e.target.value });
-                        this.handleText();
-                    }}
-                    value={this.state.cityName}
-                />
+                Only <span className="free">FREE</span>
+            </label>
+            <fieldset className="slots">
                 <label>
                     <input
                         type="checkbox"
                         className="checkbox"
-                        checked={this.state.isFreeChecked}
-                        name="free"
-                        onChange={this.handleCheckbox}
+                        checked={isMorningChecked}
+                        onChange={(e) => setIsMorningChecked(e.target.checked)}
                     />
-                    Only <span className="free">FREE</span>
+                    Morning
                 </label>
-                <fieldset className="slots">
-                    <label>
-                        <input
-                            type="checkbox"
-                            className="checkbox"
-                            checked={this.state.isMorningChecked}
-                            name="morning"
-                            onChange={this.handleCheckbox}
-                        />
-                        Morning
-                    </label>
-                    <label>
-                        <input
-                            type="checkbox"
-                            className="checkbox"
-                            checked={this.state.isAfternoonChecked}
-                            name="afternoon"
-                            onChange={this.handleCheckbox}
-                        />
-                        Afternoon
-                    </label>
-                    <label>
-                        <input
-                            type="checkbox"
-                            className="checkbox"
-                            checked={this.state.isEveningChecked}
-                            name="evening"
-                            onChange={this.handleCheckbox}
-                        />
-                        Evening
-                    </label>
-                    <label>
-                        <input
-                            type="checkbox"
-                            className="checkbox"
-                            checked={this.state.isNightChecked}
-                            name="night"
-                            onChange={this.handleCheckbox}
-                        />
-                        Night
-                    </label>
-                </fieldset>
-                <button className="button hidden-mobile-button" onClick={(e) => this.props.setFilterVisibility(false)}>
-                    Done
-                </button>
-            </aside>
-        );
-    }
-}
+                <label>
+                    <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={isAfternoonChecked}
+                        onChange={(e) => setIsAfternoonChecked(e.target.checked)}
+                    />
+                    Afternoon
+                </label>
+                <label>
+                    <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={isEveningChecked}
+                        onChange={(e) => setIsEveningChecked(e.target.checked)}
+                    />
+                    Evening
+                </label>
+                <label>
+                    <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={isNightChecked}
+                        onChange={(e) => setIsNightChecked(e.target.checked)}
+                    />
+                    Night
+                </label>
+            </fieldset>
+            <button className="button hidden-mobile-button" onClick={(e) => setFilterVisibility(false)}>
+                Done
+            </button>
+        </aside>
+    );
+};
 
 export default Filters;
