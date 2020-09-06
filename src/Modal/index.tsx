@@ -18,6 +18,7 @@ const Modal: React.FC<ModalProps> = ({ open, modalEvent, handleOnClick, setIsMod
                 Do you want to sign up?
                 <div className="button-container">
                     <button
+                        autoFocus={true}
                         className="button"
                         onClick={(e) => {
                             handleOnClick(modalEvent, true);
