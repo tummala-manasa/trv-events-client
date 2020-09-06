@@ -27,6 +27,24 @@ const Filters: React.FC<FiltersProps> = ({ events, setCurrentEvents, setFilterVi
 
     // Filter all parameters
     const showCurrentEvents = () => {
+        // Update URL Prams
+        const queryParams = new URLSearchParams(window.location.search);
+        let checksArray = [];
+        if (isFreeChecked) checksArray.push('isFreeChecked');
+        if (isMorningChecked) checksArray.push('isMorningChecked');
+        if (isAfternoonChecked) checksArray.push('isAfternoonChecked');
+        if (isEveningChecked) checksArray.push('isEveningChecked');
+        if (isNightChecked) checksArray.push('isNightChecked');
+
+        eventName ? queryParams.set('name', eventName) : queryParams.delete('name');
+        cityName ? queryParams.set('city', cityName) : queryParams.delete('city');
+        checksArray.length ? queryParams.set('checks', checksArray.toString()) : queryParams.delete('checks');
+
+        const queryParamsString = queryParams.toString();
+        const urlParams = queryParamsString ? `?${queryParamsString}` : '/';
+        window.history.pushState('', '', urlParams);
+
+        // Filter the events
         const filteredEvents: Events[] = events.filter((event) => {
             return (
                 // order according to complexity
@@ -39,6 +57,37 @@ const Filters: React.FC<FiltersProps> = ({ events, setCurrentEvents, setFilterVi
         setCurrentEvents(filteredEvents);
         console.log(filteredEvents);
     };
+
+    useEffect(() => {
+        // On load, set Filters according to the url params
+        const queryParams = new URLSearchParams(window.location.search);
+        const name = queryParams.get('name');
+        const city = queryParams.get('city');
+        const allChecks = queryParams.get('checks');
+
+        if (name) setEventName(name);
+        if (city) setCityName(city);
+        if (allChecks) {
+            const allChecksArray = allChecks.split(',');
+            if (allChecksArray.includes('isFreeChecked')) {
+                setIsFreeChecked(true);
+            }
+            if (allChecksArray.includes('isMorningChecked')) {
+                setIsMorningChecked(true);
+            }
+            if (allChecksArray.includes('isAfternoonChecked')) {
+                setIsAfternoonChecked(true);
+            }
+            if (allChecksArray.includes('isEveningChecked')) {
+                setIsEveningChecked(true);
+            }
+            if (allChecksArray.includes('isNightChecked')) {
+                setIsNightChecked(true);
+            }
+        }
+
+        console.log('new effect');
+    }, []);
 
     // when check boxes change
     useEffect(() => {
