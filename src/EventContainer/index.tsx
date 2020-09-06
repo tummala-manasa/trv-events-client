@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { Events } from '../Utils/types';
 
 import './index.css';

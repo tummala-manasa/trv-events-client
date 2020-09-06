@@ -85,8 +85,6 @@ const Filters: React.FC<FiltersProps> = ({ events, setCurrentEvents, setFilterVi
                 setIsNightChecked(true);
             }
         }
-
-        console.log('new effect');
     }, []);
 
     // when check boxes change
