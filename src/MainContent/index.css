@@ -9,41 +9,9 @@
     position: fixed;
 }
 
-.container {
-    background-color: white;
-    padding: 10px;
-    box-shadow: 0 8px 6px -6px #d7dce1;
-    margin-bottom: 15px;
-}
-
-.primary {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.primary .free {
-    margin-right: 20px;
-}
-.secondary {
-    display: flex;
-    justify-content: space-between;
-}
-
 li {
     list-style: none;
     margin-bottom: 30px;
-}
-
-.para {
-    color: #7f8ba1;
-}
-
-.title {
-    display: inline-block;
-    margin: 0;
-    font-size: 18px;
-    flex-grow: 2;
 }
 
 @media (max-width: 900px) {
