@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Events, City } from '../Utils/types';
 
 import Header from '../Header';
@@ -15,7 +15,7 @@ type AppState = {
     showFilters: boolean;
 };
 
-class App extends Component<{}, AppState> {
+class App extends PureComponent<{}, AppState> {
     constructor(props: Object) {
         super(props);
         this.state = {
