@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Events } from '../Utils/types';
 
 import FilterContext from '../Context/filter';
+import Modal from '../Modal';
 
 import './index.css';
 
@@ -13,23 +14,25 @@ type HeaderProps = {
 };
 
 const MainContent: React.FC<HeaderProps> = ({ currentEvents, currentView, updateAnEvent, setFilterVisibility }) => {
+    // state
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalEvent, setModalEvent] = useState<Events>();
+
     // context
     const showFilter = useContext(FilterContext);
 
     const handleOnClick = (event: Events, state: boolean) => {
-        if (!state || window.confirm(`Confirm sign up for the event "${event.name}"`)) {
-            fetch(`http://localhost:3001/events/${event.id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ isSignedUp: state }),
-            })
-                .then((response) => response.json())
-                .then((response) => {
-                    updateAnEvent(response);
-                });
-        }
+        fetch(`http://localhost:3001/events/${event.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ isSignedUp: state }),
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                updateAnEvent(response);
+            });
     };
 
     // Process display
@@ -65,7 +68,13 @@ const MainContent: React.FC<HeaderProps> = ({ currentEvents, currentView, update
                             </button>
                         )}
                         {!event.isSignedUp && (
-                            <button className="button" onClick={(e) => handleOnClick(event, true)}>
+                            <button
+                                className="button"
+                                onClick={(e) => {
+                                    setIsModalOpen(true);
+                                    setModalEvent(event);
+                                }}
+                            >
                                 Sign up
                             </button>
                         )}
@@ -95,7 +104,13 @@ const MainContent: React.FC<HeaderProps> = ({ currentEvents, currentView, update
     eventList = eventList.filter((event) => event);
 
     return (
-        <section className={`${showFilter ? 'hide' : ''}`} id="main-content">
+        <section className={`${showFilter ? 'hide' : ''} ${isModalOpen ? 'noscroll' : ''}`} id="main-content">
+            <Modal
+                open={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+                modalEvent={modalEvent}
+                handleOnClick={handleOnClick}
+            />
             <button className="button hidden-mobile-button" onClick={(e) => setFilterVisibility(true)}>
                 Filters
             </button>

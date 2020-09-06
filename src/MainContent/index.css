@@ -5,6 +5,10 @@
     margin: 10px;
 }
 
+#main-content.noscroll {
+    position: fixed;
+}
+
 .container {
     background-color: white;
     padding: 10px;
