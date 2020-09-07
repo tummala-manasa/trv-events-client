@@ -25,8 +25,8 @@ I have tested on node version 12.16.0. Its recommended to use this.
 
 -   As mentioned in the spec, I have used React, Typescript, HTML, CSS.
 -   Used Enzyme, Jest for test cases.
--   Used features like Context API, Functional components, Class components.
--   App structure has each component as a folder and its respective tsx, css and test files under it.
+-   Used features like **Context API**, Functional components - **hooks**, Class components.
+-   App structure has each component as a folder and its respective .tsx, .css and test files under it.
 
 ### Features
 
@@ -44,7 +44,7 @@ I have tested on node version 12.16.0. Its recommended to use this.
 
 ### Addiitonal features
 
--   Added basic unit test cases for quality purpose. Used Enzyme and Jest for this.
--   Added linting with for maintainence purpose. Used eslint and prettier for this.
--   Added debounce handling for text input field for performance purpose.
--   Added basic level of accessibility by making it keyboard and screen reader accessible. Used semantic tags whenever possible.
+-   Added basic unit test cases for quality purpose. Used **Enzyme and Jest** for this.
+-   Added linting with for maintainence purpose. Used **eslint and prettier** for this.
+-   Added **debounce** handling for text input field for performance purpose.
+-   Added basic level of accessibility by making it keyboard and screen reader accessible. Used **semantic tags** whenever possible.
