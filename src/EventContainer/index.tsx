@@ -22,6 +22,13 @@ const EventContainer: React.FC<ContainerProps> = ({
     const endDate = event.endDate;
     const duration = (endDate.getTime() - startDate.getTime()) / 60000;
 
+    const formatTime = (n: number) => {
+        if (n >= 0 && n <= 9) {
+            return '0' + n;
+        }
+        return n;
+    };
+
     return (
         <div className="container" key={event.id}>
             <div className="primary">
@@ -47,9 +54,9 @@ const EventContainer: React.FC<ContainerProps> = ({
             <div className="secondary">
                 <p className="para">{event.city}</p>
                 <p className="para">{duration}'</p>
-                {/* todo: make 0:0 as 00:00 */}
                 <p className="para">
-                    from {startDate.getHours()}:{startDate.getMinutes()} to {endDate.getHours()}:{endDate.getMinutes()}
+                    from {formatTime(startDate.getHours())}:{formatTime(startDate.getMinutes())} to{' '}
+                    {formatTime(endDate.getHours())}:{formatTime(endDate.getMinutes())}
                 </p>
             </div>
         </div>
