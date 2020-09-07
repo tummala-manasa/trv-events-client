@@ -55,7 +55,6 @@ const Filters: React.FC<FiltersProps> = ({ events, setCurrentEvents, setFilterVi
             );
         });
         setCurrentEvents(filteredEvents);
-        console.log(filteredEvents);
     };
 
     useEffect(() => {
