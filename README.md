@@ -1,44 +1,50 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# trv-event-client
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). Used typescript template of create react app.
 
 ## Available Scripts
 
-In the project directory, you can run:
+After cloning the repository, go to trv-event-client folder
 
-### `yarn start`
+-   Install dependencies - `npm install`
+-   To run app - `npm start`
+-   To run test cases - `npm test`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Please check README.d of 'trv-event-api' project and run server on 3001
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Now, open [http://localhost:3000](http://localhost:3000) to view the app in the browser.
 
-### `yarn test`
+Note:
+I have tested on node version 12.16.0. Its recommended to use this.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+-   nvm install 12.16.0
+-   nvm use 12.16.0
+-   After this, you can run `npm install` and `npm start`
 
-### `yarn build`
+### Technical Details
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+-   As mentioned in the spec, I have used React, Typescript, HTML, CSS.
+-   Used Enzyme, Jest for test cases.
+-   Used features like Context API, Functional components, Class components.
+-   App structure has each component as a folder and its respective tsx, css and test files under it.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Features
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+-   All tasks including the optional tasks have been implemented.
+-   For mobile view design, added "filters" toggle button.
+-   Made the filters component as fixed. This will help users apply filters even when scrolled down.
+-   Added filters as url paramters as this way we can directly land on view from URL.
+-   Added "Cancel" button for Signed up events only in "My events" view. I presumed this from the given requirements.
+-   Used 'POST' call provided by the JSON-server library to save the signed up events. With this, we don't need localStorage.
+-   Added empty view with text 'This view has no events'.
 
-### `yarn eject`
+-   Did not use any state management library like Redux. However, I have used Context API to pass state.
+-   Did not use react router as there is no navigation. However, I have handled parameters with Javascript.
+-   I did not make granular components like checkbox, input.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Addiitonal features
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+-   Added basic unit test cases for quality purpose. Used Enzyme and Jest for this.
+-   Added linting with for maintainence purpose. Used eslint and prettier for this.
+-   Added debounce handling for text input field for performance purpose.
+-   Added basic level of accessibility by making it keyboard and screen reader accessible. Used semantic tags whenever possible.
