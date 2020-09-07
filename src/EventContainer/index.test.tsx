@@ -85,5 +85,5 @@ test('Check if contents are rendered in the component secondary container', () =
 
     expect(EventContainerWrap.find('.para').first().text()).toEqual('Barcelona');
     expect(EventContainerWrap.find('.para').at(1).text()).toEqual("60'");
-    expect(EventContainerWrap.find('.para').at(2).text()).toEqual('from 7:30 to 8:30');
+    expect(EventContainerWrap.find('.para').at(2).text()).toEqual('from 07:30 to 08:30');
 });
