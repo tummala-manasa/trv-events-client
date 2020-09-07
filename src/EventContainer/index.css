@@ -29,3 +29,11 @@
     font-size: 18px;
     flex-grow: 2;
 }
+
+.clock {
+    margin-right: 5px;
+    width: 15px;
+    height: 15px;
+    fill: red;
+    vertical-align: top;
+}
